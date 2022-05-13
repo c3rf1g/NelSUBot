@@ -2,11 +2,11 @@ import time
 import os
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
-
+import config
 
 users_state = {}
-token = '5306391851:AAFc3nMXPQPDczSOU5UxrnMpKjwBN_1bQZU'
-bot = telebot.TeleBot(token)
+# token =
+bot = telebot.TeleBot(config.TOKEN)
 
 report_list = InlineKeyboardMarkup()
 report_list.row_width = 1
