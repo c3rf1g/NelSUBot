@@ -63,6 +63,7 @@ def callback_query(call):
             cb_dict[lab + " лаба"] = lab + " лаба"
         if "back_to_select_type" != call.data:
             bot.answer_callback_query(call.id, cb_dict[call.data])
+            users_state[call.message.chat.id]["index"] = 0
             users_state[call.message.chat.id]["лаба"] = call.data[0]
         else:
             bot.answer_callback_query(call.id, "Назад")
@@ -84,27 +85,30 @@ def callback_query(call):
             bot.send_message(call.message.chat.id, 'Такой лабы ещё нет')
 
     elif "scroll_left" == call.data:
-        # expection dopishi suka
+
         time.sleep(0.7)
         bot.answer_callback_query(call.id, "Загрузка фото")
         bot.delete_message(call.message.chat.id, call.message.message_id)
         lab_images = get_images_by_user(call.message.chat.id)
         users_state[call.message.chat.id]["index"] -= 1
+        if users_state[call.message.chat.id]["index"] * -1 >= len(lab_images):
+            users_state[call.message.chat.id]["index"] = 0
         bot.send_photo(call.message.chat.id, photo=open(f"./lab_{users_state[call.message.chat.id]['лаба']}/" +
                                                         lab_images[users_state[call.message.chat.id]["index"]], "rb"),
                        reply_markup=scroll_keyboard)
-
-
     elif "scroll_right" == call.data:
-        # i tut expection dopishi suka
+
         time.sleep(0.7)
         bot.answer_callback_query(call.id, "Загрузка фото")
         bot.delete_message(call.message.chat.id, call.message.message_id)
         lab_images = get_images_by_user(call.message.chat.id)
         users_state[call.message.chat.id]["index"] += 1
+        if users_state[call.message.chat.id]["index"] >= len(lab_images):
+            users_state[call.message.chat.id]["index"] = 0
         bot.send_photo(call.message.chat.id, photo=open(f"./lab_{users_state[call.message.chat.id]['лаба']}/" +
                                                         lab_images[users_state[call.message.chat.id]["index"]], "rb"),
                        reply_markup=scroll_keyboard)
+
     elif "back_to_select_lab" == call.data:
         bot.answer_callback_query(call.id, "Переход назад")
         bot.delete_message(call.message.chat.id, call.message.message_id)
