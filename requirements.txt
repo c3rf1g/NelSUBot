@@ -11,5 +11,4 @@ idna==3.3
 multidict==6.0.2
 pytz==2022.1
 yarl==1.7.2
-
-telebot~=0.0.4
+PyTelegramBotApi==4.5.1
