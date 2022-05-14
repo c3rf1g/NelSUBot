@@ -108,6 +108,7 @@ def callback_query(call):
         bot.send_photo(call.message.chat.id, photo=open(f"./lab_{users_state[call.message.chat.id]['лаба']}/" +
                                                         lab_images[users_state[call.message.chat.id]["index"]], "rb"),
                        reply_markup=scroll_keyboard)
+
     elif "back_to_select_lab" == call.data:
         bot.answer_callback_query(call.id, "Переход назад")
         bot.delete_message(call.message.chat.id, call.message.message_id)
