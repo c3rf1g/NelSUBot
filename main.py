@@ -13,7 +13,7 @@ report_list.row_width = 1
 report_list.add(InlineKeyboardButton("Отчет в пдф формате", callback_data="pdf"))
 report_list.add(InlineKeyboardButton("Графики из лабораторной работы", callback_data="graph"))
 report_list.add(InlineKeyboardButton("Назад", callback_data="back_to_select_lab"))
-lab_list = ["1", "2", "3", "4", "5", "6"]
+lab_list = ["1", "2", "3"]
 
 
 scroll_keyboard = InlineKeyboardMarkup()
@@ -21,6 +21,10 @@ scroll_keyboard.row_width = 2
 scroll_keyboard.add(InlineKeyboardButton("<", callback_data="scroll_left"),
                     InlineKeyboardButton(">", callback_data="scroll_right"),
                     InlineKeyboardButton("Назад", callback_data="back_to_select_type"))
+
+back_keyboard = InlineKeyboardMarkup()
+back_keyboard.row_width = 1
+back_keyboard.add(InlineKeyboardButton("Назад", callback_data="back_to_select_lab"))
 
 
 def gen_markup():
@@ -72,9 +76,12 @@ def callback_query(call):
         lab_images = get_images_by_user(call.message.chat.id)
         lab_number = users_state[call.message.chat.id]["лаба"]
         print(lab_images)
-        bot.send_photo(call.message.chat.id, photo=open(f"./lab_{lab_number}/" +
-                                                        lab_images[users_state[call.message.chat.id]["index"]], "rb"),
-                       reply_markup=scroll_keyboard)
+        try:
+            bot.send_photo(call.message.chat.id, photo=open(f"./lab_{lab_number}/" +
+                                                            lab_images[users_state[call.message.chat.id]["index"]], "rb"),
+                           reply_markup=scroll_keyboard)
+        except:
+            bot.send_message(call.message.chat.id, 'Такой лабы ещё нет')
 
     elif "scroll_left" == call.data:
         # expection dopishi suka
