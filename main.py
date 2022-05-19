@@ -13,7 +13,7 @@ report_list.row_width = 1
 report_list.add(InlineKeyboardButton("Отчет в пдф формате", callback_data="pdf"))
 report_list.add(InlineKeyboardButton("Графики из лабораторной работы", callback_data="graph"))
 report_list.add(InlineKeyboardButton("Назад", callback_data="back_to_select_lab"))
-lab_list = ["1", "2", "3"]
+lab_list = ["1", "2", "3", "4", "5"]
 
 
 scroll_keyboard = InlineKeyboardMarkup()
